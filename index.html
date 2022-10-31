@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <!--  -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+      integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script src="./index.js" defer></script>
+    <title>Document</title>
+</head>
+<body onload="render()">
+    <div class="box-content">
+        <div class="box-list">
+            <h1>Danh Sách Sản Phẩm</h1>
+            <div class="box">
+                <div class="search">
+                    <input type="text" placeholder="Tìm kiếm thông tin" id="search" oninput="search()">
+                </div>
+                <div class="select">
+                    <select class="form-select" id="out-stock" aria-label="Default select example" onchange="outStock()">
+                        <option value="start" selected>Ban Đầu</option>
+                        <option style="background-color: blue ;" value="a">Sắp hết hàng</option>
+                        <option style="background-color: red ;" value="b">Hết hàng</option>
+                        <option style="background-color: yellowgreen ;" value="1">Sắp hết hạn sử dụng</option>
+                        <option style="background-color: pink ;" value="2">Hết hạn sử dụng</option>
+                    </select>
+                    <select class="form-select" id="sort-store" aria-label="Default select example" onchange="sort()">
+                        <option value="start" selected>Sắp Xếp</option>
+                        <option value="3">Sort-Name</option>
+                        <option value="4">Sort-Date</option>
+                      </select>
+                </div>
+            </div>
+            <div class="list-product">
+                <table id="table-product" class="table table-bordered"></table>
+            </div>
+        </div>
+        <div class="box-control">
+            <h1>Thông Tin Sản Phẩm</h1>
+            <div class="box-form">
+                <div>
+                    <label for="">Mã Sản Phẩm:</label> <br>
+                    <input type="text" placeholder="Nhập thông tin" id="product-code">
+                    <span id="code-error" class="error"></span>
+                </div>
+                <div>
+                    <label for="">Tên Sản Phẩm:</label><br>
+                    <input type="text" placeholder="Nhập thông tin" id="product-name">
+                    <span id="name-error" class="error"></span>
+                </div>
+                <div>
+                    <label for="">Giá Sản Phẩm:</label><br>
+                    <input type="number" min="0" placeholder="Nhập thông tin" id="product-price">
+                    <span id="price-error" class="error"></span>
+                </div>
+                <div>
+                    <label for="">Số Lượng:</label><br>
+                    <input type="number" min="0" placeholder="Nhập thông tin" id="product-number">
+                    <span id="number-error" class="error"></span>
+                </div>
+                <div>
+                    <label for="">Ngày Nhập:</label><br>
+                    <input type="date" placeholder="Nhập thông tin" id="product-date">
+                    <span id="date-error" class="error"></span>
+                </div>
+                <div>
+                    <label for="">Hạn Sử Dụng</label><br>
+                    <input type="date" placeholder="Nhập thông tin" id="product-expiry">
+                    <span id="expiry-error" class="error"></span>
+                </div>
+                <div class="btn-control">
+                    <button class="add">Thêm Mới</button>
+                    <button class="load"><a href="">Load dữ liệu</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content" id="modal-content">
+            <div class="modal-header">
+              <h2 class="modal-title fs-5" id="exampleModalLabel"><span class="code-modal">Thông Tin Chỉnh Sửa</span></h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-modal">
+                <div>
+                  <label for="">Mã Sản Phẩm:</label> <br />
+                  <input type="text" name="" id="product-code-modal" />
+                  <span id="code-error" class="error"></span>
+                </div>
+                <div>
+                  <input type="hidden" name="" id="product-index-modal" />
+                </div>
+                <div>
+                  <label for="">Tên Sản Phẩm:</label> <br />
+                  <input type="text" name="" id="product-name-modal" />
+                  <span id="name-error" class="error"></span>
+                </div>
+                <div>
+                  <label for="">Giá Sản Phẩm:</label> <br />
+                  <input type="number" min="0" name="" id="product-price-modal" />
+                  <span id="price-error" class="error"></span>
+                </div>
+                <div>
+                  <label for="">Ngày Nhập Hàng:</label> <br />
+                  <input type="date" name="begin" id="product-date-modal" />
+                  <span id="date-error" class="error"></span>
+                </div>
+                <div>
+                  <label for="">Hạn Sử Dụng:</label> <br />
+                  <input type="date" name="begin" id="product-expiry-modal" />
+                  <span id="expiry-error" class="error"></span>
+                </div>
+                <div>
+                  <label for="">Số Sản Phẩm Nhập Vào:</label> <br />
+                  <input type="number" min="0" name="" id="product-number-modal" />
+                  <span id="number-error" class="error"></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn save-modal btn-primary" data-bs-dismiss="modal">Lưu thông tin</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</body>
+</html>
