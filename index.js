@@ -287,7 +287,6 @@ function outStock(){
         indexStock.push(index);
         for(var i = 0;  i < indexStock.length; i++){
             choose[indexStock[i]].style.backgroundColor = "blue"
-            choose[indexStock[i]].style.backgroundColor = "none"
         };
       }
       // hết hàng
@@ -295,7 +294,6 @@ function outStock(){
         indexStock.push(index);
         for(var i = 0;  i < indexStock.length; i++){
             choose[indexStock[i]].style.backgroundColor = "red"
-            choose[indexStock[i]].style.backgroundColor = "none"
         };
       }
       //hạn sử dụng
@@ -310,7 +308,6 @@ function outStock(){
         indexStock.push(index);
         for(var i = 0;  i < indexStock.length; i++){
             choose[indexStock[i]].style.backgroundColor = "pink"
-            choose[indexStock[i]].style.backgroundColor = "none"
         };
       }
       // còn bao nhiêu ngày là hết hạn
@@ -321,7 +318,6 @@ function outStock(){
         indexStock.push(index);
         for(var i = 0;  i < indexStock.length; i++){
             choose[indexStock[i]].style.backgroundColor = "yellowgreen"
-            choose[indexStock[i]].style.backgroundColor = "none"
         };
       }
     });
