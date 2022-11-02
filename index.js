@@ -304,8 +304,9 @@ function outStock(){
       var month = today.getMonth() + 1;
       var year = today.getFullYear();
       var date = year + '-' + month + '-' + day;
+      var date2 = year + '-' + month + '-0' + day;
       // hết hạn sử dụng
-      if(valueSlelectStock == "2" && el.expiryProduct == date){
+      if(valueSlelectStock == "2" && (el.expiryProduct == date || el.expiryProduct == date2)){
         indexStock.push(index);
         for(var i = 0;  i < indexStock.length; i++){
             choose[indexStock[i]].style.backgroundColor = "pink"
